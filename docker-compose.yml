@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+    hyperf:
+        build:
+            context: .
+            dockerfile: app/Dockerfile
+        environment:
+            - COMPOSER_ALLOW_SUPERUSER=true
+        ports:
+            -   "9501:9501"
+            -   "9502:9502"
+        volumes:
+            -   ./app:/opt/www
+        depends_on:
+            - mysql
+            - redis
+            - rabbit-mq
+            - es
+
+    redis:
+        image: redis:6.0
+        restart: unless-stopped
+
+    mysql:
+        image: mysql:5.7
+        restart: unless-stopped
+        environment:
+            - MYSQL_DATABASE=app
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=1
+        ports:
+            - "3310:3306"
+        volumes:
+            - db_data:/var/lib/mysql
+
+    es:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+        restart: unless-stopped
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        environment:
+            - "discovery.type=single-node"
+            - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+        volumes:
+            - es_data:/usr/share/elasticsearch/data
+
+    rabbit-mq:
+        image: rabbitmq:3.8.9-management
+        restart: unless-stopped
+        ports:
+            - "15672:15672"
+        environment:
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+
+volumes:
+    db_data:
+        name: db_data
+        driver: local
+    es_data:
+        name: es_data
+        driver: local
