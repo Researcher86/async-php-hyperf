@@ -29,6 +29,12 @@ gen-producer:
 gen-consumer:
 	docker-compose exec hyperf php bin/hyperf.php gen:amqp-consumer DemoConsumer
 
+gen-command:
+	docker-compose exec hyperf php bin/hyperf.php gen:command FooCommand
+
+run-command:
+	docker-compose exec hyperf php bin/hyperf.php demo:command
+
 gen-migration:
 	docker-compose exec hyperf php bin/hyperf.php gen:migration create_users_table
 
