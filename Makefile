@@ -1,13 +1,20 @@
 build:
 	docker-compose build
 
-up: c-c migrate
+up: php-clear
 	docker-compose up -d
+	#docker-compose exec hyperf php bin/hyperf.php migrate
 
 restart:
 	docker-compose restart
 
+logs:
+	docker-compose logs
+
 down:
+	docker-compose down
+
+down-all:
 	docker-compose down -v
 
 php:
@@ -31,7 +38,7 @@ gen-model:
 migrate:
 	docker-compose exec hyperf php bin/hyperf.php migrate
 
-c-c:
+php-clear:
 	rm -rf app/runtime/container
 
 # make bench

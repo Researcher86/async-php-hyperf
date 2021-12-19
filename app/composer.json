@@ -17,6 +17,7 @@
         "hyperf/cache": "~2.2.0",
         "hyperf/command": "~2.2.0",
         "hyperf/config": "~2.2.0",
+        "hyperf/crontab": "^2.2",
         "hyperf/database": "~2.2.0",
         "hyperf/db-connection": "~2.2.0",
         "hyperf/elasticsearch": "~2.2.0",
@@ -27,6 +28,7 @@
         "hyperf/memory": "~2.2.0",
         "hyperf/process": "~2.2.0",
         "hyperf/redis": "~2.2.0",
+        "hyperf/websocket-client": "^2.2",
         "hyperf/websocket-server": "^2.2"
     },
     "require-dev": {
