@@ -1,0 +1,7 @@
+GET http://localhost:9200/my_index/_search
+Content-Type: application/json; charset=UTF-8
+
+{
+  "query": {"match_all": {}}
+}
+###
