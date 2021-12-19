@@ -12,6 +12,7 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Redis\Redis;
+use Hyperf\Utils\Parallel;
 
 /**
  * @Controller()
@@ -50,8 +51,39 @@ class TestController extends AbstractController
 
         $this->client->index($params);
 
+//        $this->parallel();
+
         // Retrieve the id parameter from the request
         $id = $request->input('id', 1);
         return (string) $id;
+    }
+
+    private function parallel(): void
+    {
+        $parallel = new Parallel(4);
+
+        $parallel->add(function () {
+            $message = new DemoProducer('AMQP Message From Controller');
+            $this->producer->produce($message);
+        });
+
+        $parallel->add(function () {
+            $this->redis->set('test', 42);
+        });
+
+        $parallel->add(function () {
+            User::create(['name' => time()])->save();
+        });
+
+        $parallel->add(function () {
+            $params = [
+                'index' => 'my_index',
+                'id'    => time(),
+                'body'  => ['testField' => 'abc']
+            ];
+            $this->client->index($params);
+        });
+
+        $parallel->wait();
     }
 }

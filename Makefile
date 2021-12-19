@@ -50,7 +50,7 @@ php-clear:
 # make bench
 bench:
     # https://github-wiki-see.page/m/giltene/wrk2/wiki/Installing-wrk2-on-Linux#:~:text=Installing%20wrk2%20on,wrk%20and%20build.
-	wrk -t4 -c100 -R100 http://host.docker.internal:9501
-	wrk -t4 -c100 -R100 http://host.docker.internal:9501/test/index
-	wrk -t4 -c100 -R100 http://host.docker.internal:9501/index.html
+	wrk -t10 -c1000 -R5000 http://host.docker.internal:9501
+	wrk -t10 -c1000 -R5000 http://host.docker.internal:9501/test/index
+	wrk -t10 -c1000 -R5000 http://host.docker.internal:9501/index.html
 
