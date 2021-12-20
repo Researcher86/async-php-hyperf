@@ -12,6 +12,7 @@ services:
             -   "9502:9502"
         volumes:
             -   ./app:/opt/www
+        entrypoint: ["php", "/opt/www/bin/hyperf.php", "server:watch"]
         depends_on:
             - mysql
             - redis
